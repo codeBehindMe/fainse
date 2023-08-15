@@ -1,8 +1,7 @@
-from typing import Optional, List
+from typing import List, Optional
 
-
-from src.model.invoice import _
 from src.model.client import Client
+from src.model.invoice import _
 
 
 class ClientController:

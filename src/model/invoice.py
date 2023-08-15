@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import _Date 
+from datetime import _Date
 from typing import Optional
 
 from src.model.client import Client
