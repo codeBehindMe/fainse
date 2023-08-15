@@ -1,14 +1,8 @@
 from dataclasses import dataclass
-from datetime import _Date, datetime
+from datetime import _Date 
 from typing import Optional
 
-
-@dataclass
-class IssuedTo:
-    contactName: Optional[str]
-    businessName: str
-    emailAddress: str
-    addressStr: Optional[str]
+from src.model.client import Client
 
 
 @dataclass
@@ -22,7 +16,7 @@ class BankDetails:
 class Invoice:
     clientName: str
     invoiceId: str
-    issuedTo: IssuedTo
+    issuedTo: Client
     issuedDate: _Date
     total: float
     gstRate: str
@@ -30,3 +24,5 @@ class Invoice:
     amountDue: float
     invoiceDue: _Date
     bankDetails: BankDetails
+    recieved: bool
+    paymentRecievedDate: Optional[_Date]
