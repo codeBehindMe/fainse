@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import _Date
-from typing import Optional
+from typing import List, Optional
 
 from src.model.client import Client
 
@@ -13,11 +13,21 @@ class BankDetails:
 
 
 @dataclass
+class LineItem:
+    itemNumber: int
+    itemDescription: str
+    unitPrice: float
+    quantity: float
+    total: float
+
+
+@dataclass
 class Invoice:
     clientName: str
     invoiceId: str
     issuedTo: Client
     issuedDate: _Date
+    lineItems: List[LineItem]
     total: float
     gstRate: str
     gst: float
