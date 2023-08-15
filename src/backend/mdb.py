@@ -1,8 +1,8 @@
 # mongodb backend
 from src.backend.backend import Backend
 
+
 class MongoDBBackend(Backend):
-    
     def __init__(self) -> None:
         super().__init__()
 
