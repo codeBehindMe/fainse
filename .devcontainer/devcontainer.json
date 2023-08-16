@@ -3,7 +3,10 @@
 {
 	"name": "Python 3",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/python:1-3.11-bullseye",
+	"dockerComposeFile":"docker-compose.yaml",
+	"service": "devcontainer",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	// "image": "mcr.microsoft.com/devcontainers/python:1-3.11-bullseye",
 	"features": {
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
 		"ghcr.io/devcontainers/features/github-cli:1": {},
@@ -18,7 +21,7 @@
 	// "features": {},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	"forwardPorts": [8081],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	 "postCreateCommand": "pip3 install --user -r requirements.txt",
