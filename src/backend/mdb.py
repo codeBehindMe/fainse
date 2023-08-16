@@ -1,7 +1,7 @@
 # mongodb backend
+from copy import deepcopy
 from dataclasses import asdict
 from typing import Any, List
-from copy import deepcopy
 
 import pymongo
 from pymongo import MongoClient
@@ -14,14 +14,16 @@ APP_DATABASE_NAME = "fainse"
 
 
 class MongoDBBackend(Backend):
-    def __init__(self, host, port, username, password) -> None:
+    def __init__(
+        self, host, port, username, password, app_database_name=APP_DATABASE_NAME
+    ) -> None:
         super().__init__()
         self.host = host
         self.port = port
         self.mongo_client = MongoClient(
             host=host, port=port, username=username, password=password
         )
-        self.db = self.mongo_client[APP_DATABASE_NAME]
+        self.db = self.mongo_client[app_database_name]
 
     @staticmethod
     def _get_max_value_of_field(collection: Collection, field_name: str) -> Any:
@@ -45,7 +47,7 @@ class MongoDBBackend(Backend):
         clients_collection = self.db.clients
 
         _client = deepcopy(client)
-        _client.clientId = self._auto_increment_field(clients_collection,"clientId")
+        _client.clientId = self._auto_increment_field(clients_collection, "clientId")
         clients_collection.insert_one(asdict(_client))
 
     def get_invoice(self):
