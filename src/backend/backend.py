@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 
 class Backend(ABC):
@@ -6,7 +7,7 @@ class Backend(ABC):
         super().__init__()
 
     @abstractmethod
-    def get_clients(self):
+    def get_clients(self) -> List[str]:
         raise NotImplementedError()
 
     @abstractmethod
