@@ -8,10 +8,10 @@ _NOT_IMPLEMENTED_RESPONSE = {"error": "not implemented"}
 
 
 @app.get("/")
-def read_root():
+async def read_root():
     return {"fainse": "root"}
 
 
 @app.get("/client/list")
-def read_clients():
+async def read_clients():
     return _NOT_IMPLEMENTED_RESPONSE

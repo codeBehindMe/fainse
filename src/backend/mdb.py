@@ -25,6 +25,9 @@ class MongoDBBackend(Backend):
         )
         self.db = self.mongo_client[app_database_name]
 
+    def __del__(self):
+        self.mongo_client.close()
+
     @staticmethod
     def _get_max_value_of_field(collection: Collection, field_name: str) -> Any:
         res = collection.find_one(sort=[(field_name, pymongo.DESCENDING)])
