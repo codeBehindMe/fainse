@@ -32,7 +32,7 @@ class MongoDBBackend(Backend):
     def _get_max_value_of_field(collection: Collection, field_name: str) -> Any:
         res = collection.find_one(sort=[(field_name, pymongo.DESCENDING)])
         if res is None:
-            return 1
+            return 0
         else:
             return res[field_name]
 
@@ -46,12 +46,13 @@ class MongoDBBackend(Backend):
         for client in clients.find():
             yield client.clientName
 
-    def new_client(self, client: Client):
+    def new_client(self, client: Client) -> Client:
         clients_collection = self.db.clients
 
         _client = deepcopy(client)
         _client.clientId = self._auto_increment_field(clients_collection, "clientId")
         clients_collection.insert_one(asdict(_client))
+        return _client
 
     def get_invoice(self):
         return super().get_invoice()
