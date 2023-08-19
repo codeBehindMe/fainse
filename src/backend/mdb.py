@@ -48,7 +48,7 @@ class MongoDBBackend(Backend):
         for client in clients.find():
             yield client.clientName
 
-    def new_client(self, client: Client) -> bool:
+    def new_client(self, client: Client) -> Client:
         clients_collection = self.db.clients
 
         _client = deepcopy(client)
@@ -56,10 +56,10 @@ class MongoDBBackend(Backend):
             clients_collection, "clientNumber"
         )
         clients_collection.insert_one(asdict(_client))
-        return True
+        return _client
 
-    def get_invoice(self):
-        return super().get_invoice()
+    def get_invoice_by_id(self):
+        raise NotImplementedError()
 
     def update_invoice(self):
         return super().update_invoice()

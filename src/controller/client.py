@@ -1,8 +1,8 @@
 from typing import List, Optional
 
-from src.model.client import Client
-from src.backend.backend import Backend
 import src.utils.misc as misc_utils
+from src.backend.backend import Backend
+from src.model.client import Client
 
 
 class ClientController:
@@ -28,7 +28,7 @@ class ClientController:
             clientName=clientName,
             contactName=contactName,
             emailAddress=emailAddress,
-            addressStr=address
+            addressStr=address,
         )
 
-        self.backend.new_client(client=client)
+        _ = self.backend.new_client(client=client)

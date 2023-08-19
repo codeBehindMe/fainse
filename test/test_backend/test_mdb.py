@@ -47,4 +47,4 @@ class TestMongoDBBackend:
         db_res = setup_database[_MONGO_TEST_DB_NAME].clients.find_one(
             {"clientId": res_client.clientId}
         )
-        assert db_res["clientName"] == res_client.clientName
+        assert db_res["clientName"] == c.clientName

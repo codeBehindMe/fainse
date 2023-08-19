@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import List
+
 from src.model.client import Client
+from src.model.invoice import Invoice
 
 
 class Backend(ABC):
@@ -12,11 +14,11 @@ class Backend(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def new_client(self, client: Client) -> bool:
+    def new_client(self, client: Client) -> Client:
         raise NotImplementedError()
 
     @abstractmethod
-    def get_invoice(self):
+    def get_invoice_by_id(self, invoiceId: str) -> Invoice:
         raise NotImplementedError()
 
     @abstractmethod
@@ -24,5 +26,5 @@ class Backend(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def generate_new_invoice(self):
+    def generate_new_invoice(self, invoice: Invoice):
         raise NotImplementedError()
