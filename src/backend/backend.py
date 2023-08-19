@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
+from src.model.client import Client
 
 
 class Backend(ABC):
@@ -11,7 +12,7 @@ class Backend(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def new_client(self):
+    def new_client(self, client: Client) -> bool:
         raise NotImplementedError()
 
     @abstractmethod

@@ -1,4 +1,5 @@
 # mongodb backend
+import datetime
 from copy import deepcopy
 from dataclasses import asdict
 from typing import Any, List
@@ -9,6 +10,7 @@ from pymongo.collection import Collection
 
 from src.backend.backend import Backend
 from src.model.client import Client
+from src.model.invoice import Invoice
 
 APP_DATABASE_NAME = "fainse"
 
@@ -46,13 +48,15 @@ class MongoDBBackend(Backend):
         for client in clients.find():
             yield client.clientName
 
-    def new_client(self, client: Client) -> Client:
+    def new_client(self, client: Client) -> bool:
         clients_collection = self.db.clients
 
         _client = deepcopy(client)
-        _client.clientId = self._auto_increment_field(clients_collection, "clientId")
+        _client.clientNumber = self._auto_increment_field(
+            clients_collection, "clientNumber"
+        )
         clients_collection.insert_one(asdict(_client))
-        return _client
+        return True
 
     def get_invoice(self):
         return super().get_invoice()
@@ -60,5 +64,17 @@ class MongoDBBackend(Backend):
     def update_invoice(self):
         return super().update_invoice()
 
-    def generate_new_invoice(self):
-        return super().generate_new_invoice()
+    def generate_new_invoice(self, invoice: Invoice):
+        invoices_collection = self.db.invoices
+
+        _invoice = deepcopy(invoice)
+
+        # We have to increment the invoice number for each invoice per client.
+        _res = invoices_collection.find_one(
+            {"clientId": _invoice.clientId},
+            sort=[("invoiceNumber", pymongo.DESCENDING)],
+        )
+        if _res is None:
+            _invoice.invoiceNumber = 1
+        else:
+            _invoice.invoiceNumber = _res["invoiceNumber"] + 1

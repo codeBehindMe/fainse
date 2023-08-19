@@ -36,6 +36,7 @@ class TestMongoDBBackend:
         mdb = MongoDBBackend(**_MONGO_TEST_CONN, app_database_name=_MONGO_TEST_DB_NAME)
         c = Client(
             clientId=None,
+            clientNumber=None,
             clientName="testClient",
             contactName="testContact",
             emailAddress="testAddress",

@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from datetime import _Date
 from typing import List, Optional
 
 from src.model.client import Client
@@ -23,16 +22,18 @@ class LineItem:
 
 @dataclass
 class Invoice:
+    clientId: int
     clientName: str
-    invoiceId: str
     issuedTo: Client
-    issuedDate: _Date
+    issuedDate: str
     lineItems: List[LineItem]
     total: float
     gstRate: str
     gst: float
     amountDue: float
-    invoiceDue: _Date
+    invoiceDue: str
     bankDetails: BankDetails
     recieved: bool
-    paymentRecievedDate: Optional[_Date]
+    paymentRecievedDate: Optional[str] = None
+    invoiceId: Optional[str] = None
+    invoiceNumber: Optional[int] = None
