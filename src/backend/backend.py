@@ -22,9 +22,9 @@ class Backend(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def update_invoice(self):
+    def update_invoice(self, invoice: Invoice):
         raise NotImplementedError()
 
     @abstractmethod
-    def generate_new_invoice(self, invoice: Invoice):
+    def new_invoice(self, invoice: Invoice):
         raise NotImplementedError()

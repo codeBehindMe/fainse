@@ -2,7 +2,7 @@
 import datetime
 from copy import deepcopy
 from dataclasses import asdict
-from typing import Any, List
+from typing import Any, Dict, List
 
 import pymongo
 from pymongo import MongoClient
@@ -26,6 +26,8 @@ class MongoDBBackend(Backend):
             host=host, port=port, username=username, password=password
         )
         self.db = self.mongo_client[app_database_name]
+        self.clients_collection = self.db.clients
+        self.invoices_collection = self.db.invoices
 
     def __del__(self):
         self.mongo_client.close()
@@ -61,10 +63,25 @@ class MongoDBBackend(Backend):
     def get_invoice_by_id(self):
         raise NotImplementedError()
 
-    def update_invoice(self):
-        return super().update_invoice()
+    def update_invoice(self, invoice: Invoice):
+        # Need to appropriately handle this
+        if invoice.invoiceId is None:
+            raise ValueError("cannot update invoice with empty invoiceId")
+        _res: Dict = self.invoices_collection.find_one({"invoiceId": invoice.invoiceId})
 
-    def generate_new_invoice(self, invoice: Invoice):
+        if _res is None:
+            raise ValueError(
+                f"could not find any invoices for invoiceId: {invoice.invoiceId}"
+            )
+
+        for k, v in asdict(invoice).items():
+            _res[k] = v
+
+        # FIXME: Change with update_one.
+        self.invoices_collection.delete_one({"invoiceId": invoice.invoiceId})
+        self.invoices_collection.insert_one(_res)
+
+    def new_invoice(self, invoice: Invoice):
         invoices_collection = self.db.invoices
 
         _invoice = deepcopy(invoice)

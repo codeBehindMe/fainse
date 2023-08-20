@@ -15,10 +15,10 @@ class InvoiceController:
         raise NotImplementedError()
 
     def new_invoice(self, invoice: Invoice) -> Invoice:
-        self.backend.generate_new_invoice(invoice=invoice)
+        self.backend.new_invoice(invoice=invoice)
 
     def update_invoice(self, invoice: Invoice) -> bool:
-        raise NotImplementedError()
+        self.backend.update_invoice(invoice)
 
     def add_line_item(self, invoiceId: str, li: LineItem) -> bool:
         invoice = self.backend.get_invoice_by_id(invoiceId)
